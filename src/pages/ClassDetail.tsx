@@ -11,7 +11,11 @@ import {
   MapPin,
   BookOpen,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  UserCheck,
+  GraduationCap,
+  FileText,
+  MessageSquare
 } from "lucide-react";
 
 // Mock data
@@ -71,108 +75,169 @@ const ClassDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-card border-b border-border shadow-sm">
-        <div className="px-4 py-4 flex items-center space-x-3">
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => navigate("/dashboard")}
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-          <div className="flex items-center space-x-3">
-            <div className={`w-4 h-4 rounded-full ${classData.color}`}></div>
-            <div>
-              <h1 className="text-xl font-bold text-foreground">{classData.name}</h1>
-              <p className="text-sm text-muted-foreground">{classData.subject}</p>
+    <div className="min-h-screen bg-background touch-manipulation">
+      {/* Mobile Header */}
+      <header className="bg-gradient-to-r from-primary to-primary-hover text-primary-foreground sticky top-0 z-40 shadow-lg">
+        <div className="px-4 py-4 safe-area-top">
+          <div className="flex items-center space-x-3 mb-4">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => navigate("/dashboard")}
+              className="h-11 w-11 text-white/80 hover:text-white hover:bg-white/10 touch-manipulation"
+            >
+              <ArrowLeft className="w-6 h-6" />
+            </Button>
+            <div className="flex-1">
+              <h1 className="text-xl font-bold text-white">{classData.name}</h1>
+              <p className="text-white/80 text-sm">{classData.subject}</p>
+            </div>
+          </div>
+          
+          {/* Mobile Stats */}
+          <div className="grid grid-cols-3 gap-3">
+            <div className="bg-white/10 rounded-xl p-3 text-center backdrop-blur-sm">
+              <p className="text-2xl font-bold text-white">{classData.students}</p>
+              <p className="text-white/80 text-xs">Students</p>
+            </div>
+            <div className="bg-white/10 rounded-xl p-3 text-center backdrop-blur-sm">
+              <p className="text-lg font-bold text-white">{classData.period}</p>
+              <p className="text-white/80 text-xs">Period</p>
+            </div>
+            <div className="bg-white/10 rounded-xl p-3 text-center backdrop-blur-sm">
+              <p className="text-lg font-bold text-white">{classData.room}</p>
+              <p className="text-white/80 text-xs">Room</p>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="p-4 space-y-6">
-        {/* Class Info Card */}
-        <Card className="bg-card border border-border">
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <span className="text-foreground">Class Information</span>
-              <Badge variant="secondary">{classData.period}</Badge>
+      {/* Mobile Quick Actions */}
+      <div className="px-4 py-6 bg-gradient-to-b from-primary/5 to-background">
+        <div className="grid grid-cols-2 gap-4 mb-8">
+          <Button 
+            className="mobile-card h-20 flex flex-col items-center justify-center space-y-2 bg-gradient-to-br from-success to-success/80 hover:from-success/90 hover:to-success/70 text-success-foreground border-0 active:scale-95 transition-all touch-manipulation"
+            onClick={() => navigate(`/attendance/${classId}`)}
+          >
+            <UserCheck className="w-7 h-7" />
+            <span className="text-sm font-semibold">Attendance</span>
+          </Button>
+          
+          <Button 
+            className="mobile-card h-20 flex flex-col items-center justify-center space-y-2 bg-gradient-to-br from-warning to-warning/80 hover:from-warning/90 hover:to-warning/70 text-warning-foreground border-0 active:scale-95 transition-all touch-manipulation"
+            onClick={() => navigate(`/grades/${classId}`)}
+          >
+            <GraduationCap className="w-7 h-7" />
+            <span className="text-sm font-semibold">Grades</span>
+          </Button>
+          
+          <Button 
+            className="mobile-card h-20 flex flex-col items-center justify-center space-y-2 bg-gradient-to-br from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground border-0 active:scale-95 transition-all touch-manipulation"
+            onClick={() => navigate(`/assignments/${classId}`)}
+          >
+            <FileText className="w-7 h-7" />
+            <span className="text-sm font-semibold">Assignments</span>
+          </Button>
+          
+          <Button 
+            className="mobile-card h-20 flex flex-col items-center justify-center space-y-2 bg-gradient-to-br from-secondary to-secondary/80 hover:from-secondary/90 hover:to-secondary/70 text-secondary-foreground border-0 active:scale-95 transition-all touch-manipulation"
+            onClick={() => navigate(`/announcements/${classId}`)}
+          >
+            <MessageSquare className="w-7 h-7" />
+            <span className="text-sm font-semibold">Messages</span>
+          </Button>
+        </div>
+
+        {/* Mobile Class Info Card */}
+        <Card className="mobile-card mb-6 bg-gradient-to-br from-card to-card/80 border-border/50">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center space-x-3 text-lg">
+              <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                <BookOpen className="w-5 h-5 text-primary" />
+              </div>
+              <span>Class Information</span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-muted-foreground">{classData.description}</p>
+          <CardContent>
+            <p className="text-muted-foreground mb-4 leading-relaxed">{classData.description}</p>
             
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-center space-x-2">
-                <Users className="w-4 h-4 text-primary" />
-                <span className="text-sm text-foreground">{classData.students} Students</span>
+            <div className="grid grid-cols-1 gap-4">
+              <div className="flex items-center justify-between py-2">
+                <div className="flex items-center space-x-3">
+                  <Users className="w-5 h-5 text-primary" />
+                  <span className="font-medium text-foreground">Students</span>
+                </div>
+                <span className="font-semibold text-foreground">{classData.students}</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <Clock className="w-4 h-4 text-primary" />
-                <span className="text-sm text-foreground">{classData.time}</span>
+              <div className="flex items-center justify-between py-2">
+                <div className="flex items-center space-x-3">
+                  <Clock className="w-5 h-5 text-primary" />
+                  <span className="font-medium text-foreground">Time</span>
+                </div>
+                <span className="font-semibold text-foreground">{classData.time}</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <MapPin className="w-4 h-4 text-primary" />
-                <span className="text-sm text-foreground">{classData.room}</span>
+              <div className="flex items-center justify-between py-2">
+                <div className="flex items-center space-x-3">
+                  <MapPin className="w-5 h-5 text-primary" />
+                  <span className="font-medium text-foreground">Location</span>
+                </div>
+                <span className="font-semibold text-foreground">{classData.room}</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <Calendar className="w-4 h-4 text-primary" />
-                <span className="text-sm text-foreground">Monday - Friday</span>
+              <div className="flex items-center justify-between py-2">
+                <div className="flex items-center space-x-3">
+                  <Calendar className="w-5 h-5 text-primary" />
+                  <span className="font-medium text-foreground">Schedule</span>
+                </div>
+                <span className="font-semibold text-foreground">Monday - Friday</span>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-2 gap-4">
-          <Button className="h-16 bg-primary hover:bg-primary-hover text-primary-foreground">
-            <div className="text-center">
-              <BookOpen className="w-6 h-6 mx-auto mb-1" />
-              <span className="text-sm">Take Attendance</span>
-            </div>
-          </Button>
-          <Button variant="outline" className="h-16 border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-            <div className="text-center">
-              <CheckCircle className="w-6 h-6 mx-auto mb-1" />
-              <span className="text-sm">View Assignments</span>
-            </div>
-          </Button>
-        </div>
-
-        {/* Upcoming Assignment */}
-        <Card className="bg-card border border-border">
-          <CardHeader>
-            <CardTitle className="text-foreground">Next Assignment</CardTitle>
+        {/* Mobile Upcoming Assignment */}
+        <Card className="mobile-card mb-6 bg-gradient-to-br from-card to-card/80 border-border/50">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center space-x-3 text-lg">
+              <div className="w-10 h-10 bg-warning/10 rounded-xl flex items-center justify-center">
+                <AlertCircle className="w-5 h-5 text-warning" />
+              </div>
+              <span>Next Assignment</span>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-semibold text-foreground">{classData.nextAssignment}</h3>
-                <p className="text-sm text-muted-foreground">Due: {classData.dueDate}</p>
+                <h3 className="font-bold text-foreground text-lg">{classData.nextAssignment}</h3>
+                <p className="text-muted-foreground mt-1">Due: {classData.dueDate}</p>
               </div>
-              <AlertCircle className="w-5 h-5 text-warning" />
+              <Badge variant="outline" className="text-warning border-warning/30">
+                Pending
+              </Badge>
             </div>
           </CardContent>
         </Card>
 
-        {/* Recent Students */}
-        <Card className="bg-card border border-border">
-          <CardHeader>
-            <CardTitle className="text-foreground">Recent Students</CardTitle>
+        {/* Mobile Recent Students */}
+        <Card className="mobile-card bg-gradient-to-br from-card to-card/80 border-border/50">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center space-x-3 text-lg">
+              <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                <Users className="w-5 h-5 text-primary" />
+              </div>
+              <span>Recent Students</span>
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {classData.recentStudents.map((student) => (
-                <div key={student.id} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <Avatar className="w-8 h-8">
-                      <AvatarFallback className="text-xs bg-secondary text-secondary-foreground">
+                <div key={student.id} className="flex items-center justify-between py-2">
+                  <div className="flex items-center space-x-4">
+                    <Avatar className="w-10 h-10">
+                      <AvatarFallback className="text-sm bg-secondary text-secondary-foreground font-medium">
                         {student.initials}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="text-foreground">{student.name}</span>
+                    <span className="font-medium text-foreground">{student.name}</span>
                   </div>
                   <Badge 
                     variant={student.status === "present" ? "default" : "destructive"}
@@ -186,6 +251,9 @@ const ClassDetail = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Mobile Safe Area Bottom */}
+      <div className="pb-safe-bottom"></div>
     </div>
   );
 };

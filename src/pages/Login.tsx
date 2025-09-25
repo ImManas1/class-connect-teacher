@@ -5,11 +5,13 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
+import { GraduationCap, Eye, EyeOff } from "lucide-react";
 import loginHero from "@/assets/login-hero.jpg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
@@ -32,68 +34,109 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        {/* Hero Section */}
-        <div className="text-center mb-8">
-          <div className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden shadow-lg">
-            <img 
-              src={loginHero} 
-              alt="TeacherApp Logo" 
-              className="w-full h-full object-cover"
-            />
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 touch-manipulation">
+      {/* Mobile Hero Section */}
+      <div className="relative h-56 overflow-hidden">
+        <img 
+          src={loginHero}
+          alt="Educational environment with modern classroom" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-primary/10"></div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center text-white px-4">
+            <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+              <GraduationCap className="w-10 h-10" />
+            </div>
+            <h1 className="text-3xl font-bold mb-2">TeacherConnect</h1>
+            <p className="text-white/90 text-base">Manage your classes with ease</p>
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">TeacherApp</h1>
-          <p className="text-muted-foreground text-lg">Manage your classes with ease</p>
         </div>
+      </div>
 
-        {/* Login Card */}
-        <Card className="shadow-lg border-0 bg-card/95 backdrop-blur-sm">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl text-foreground">Welcome Back</CardTitle>
-            <CardDescription>Sign in to access your classes</CardDescription>
+      {/* Mobile-optimized Login Form */}
+      <div className="px-4 -mt-12 relative z-10">
+        <Card className="mobile-card bg-card/98 backdrop-blur-sm border border-border/50">
+          <CardHeader className="text-center pb-6 pt-6">
+            <CardTitle className="text-2xl font-bold text-foreground">Welcome Back</CardTitle>
+            <CardDescription className="text-muted-foreground text-base">
+              Sign in to access your classes
+            </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-6 pb-6">
             <form onSubmit={handleLogin} className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-foreground font-medium">Email</Label>
+              <div className="space-y-3">
+                <Label htmlFor="email" className="text-base font-medium text-foreground">
+                  Email Address
+                </Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="teacher@school.edu"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-12 text-foreground bg-background/50"
+                  className="mobile-input text-base"
+                  placeholder="teacher@school.edu"
+                  autoComplete="email"
+                  required
                 />
               </div>
               
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-foreground font-medium">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="h-12 text-foreground bg-background/50"
-                />
+              <div className="space-y-3">
+                <Label htmlFor="password" className="text-base font-medium text-foreground">
+                  Password
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="mobile-input text-base pr-14"
+                    placeholder="Enter your password"
+                    autoComplete="current-password"
+                    required
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 touch-manipulation"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5 text-muted-foreground" />
+                    ) : (
+                      <Eye className="w-5 h-5 text-muted-foreground" />
+                    )}
+                  </Button>
+                </div>
               </div>
 
               <Button 
                 type="submit" 
-                className="w-full h-12 text-lg font-semibold bg-primary hover:bg-primary-hover text-primary-foreground shadow-md transition-all duration-200"
+                className="w-full mobile-button bg-primary text-primary-foreground font-semibold text-base active:scale-95 transition-transform"
               >
                 Sign In
               </Button>
             </form>
 
-            <div className="mt-6 text-center">
-              <p className="text-sm text-muted-foreground">
-                Need help? Contact your administrator
+            <div className="mt-8 text-center">
+              <p className="text-base text-muted-foreground">
+                Need help?{" "}
+                <button className="text-primary font-medium touch-manipulation">
+                  Contact administrator
+                </button>
               </p>
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Footer */}
+      <div className="px-4 py-8 text-center">
+        <p className="text-sm text-muted-foreground">
+          © 2024 TeacherConnect. All rights reserved.
+        </p>
       </div>
     </div>
   );
