@@ -19,7 +19,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<ParentDashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/parent-dashboard" element={<ParentDashboard />} />
           <Route path="/class/:classId" element={<ClassDetail />} />
