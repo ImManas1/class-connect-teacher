@@ -33,11 +33,11 @@ const mockClassData: Record<string, any> = {
     nextAssignment: "Homework Chapter 5",
     dueDate: "Tomorrow",
     recentStudents: [
-      { id: 1, name: "Emma Johnson", status: "present", initials: "EJ" },
-      { id: 2, name: "Michael Chen", status: "present", initials: "MC" },
-      { id: 3, name: "Sarah Williams", status: "absent", initials: "SW" },
-      { id: 4, name: "David Brown", status: "present", initials: "DB" },
-      { id: 5, name: "Lisa Garcia", status: "present", initials: "LG" },
+      { id: 1, name: "Priya Sharma", status: "present", initials: "PS" },
+      { id: 2, name: "Arjun Patel", status: "present", initials: "AP" },
+      { id: 3, name: "Kavya Reddy", status: "absent", initials: "KR" },
+      { id: 4, name: "Rohan Singh", status: "present", initials: "RS" },
+      { id: 5, name: "Ananya Gupta", status: "present", initials: "AG" },
     ]
   },
   "2": {
@@ -53,9 +53,9 @@ const mockClassData: Record<string, any> = {
     nextAssignment: "Quiz on Polynomials",
     dueDate: "Friday",
     recentStudents: [
-      { id: 1, name: "Alex Rivera", status: "present", initials: "AR" },
-      { id: 2, name: "Jordan Kim", status: "present", initials: "JK" },
-      { id: 3, name: "Taylor Swift", status: "present", initials: "TS" },
+      { id: 1, name: "Vikram Kumar", status: "present", initials: "VK" },
+      { id: 2, name: "Sneha Joshi", status: "present", initials: "SJ" },
+      { id: 3, name: "Rahul Verma", status: "present", initials: "RV" },
     ]
   }
 };

@@ -3,32 +3,48 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
-import { Calendar, ChartBar, LogOut, School2, User } from "lucide-react";
+import { Calendar, ChartBar, LogOut, School2, User, TrendingUp, Clock, BookOpen, AlertTriangle } from "lucide-react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis } from "recharts";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const mockAttendanceBySubject = [
-  { subject: "Math", percentage: 92 },
+  { subject: "Mathematics", percentage: 92 },
   { subject: "Science", percentage: 88 },
   { subject: "English", percentage: 95 },
   { subject: "History", percentage: 90 },
-  { subject: "PE", percentage: 97 },
+  { subject: "Physical Education", percentage: 97 },
+  { subject: "Computer Science", percentage: 94 },
 ];
 
 const mockRecentAttendance = [
-  { date: "2025-09-15", status: "Present" },
-  { date: "2025-09-14", status: "Present" },
-  { date: "2025-09-13", status: "Absent" },
-  { date: "2025-09-12", status: "Present" },
-  { date: "2025-09-11", status: "Present" },
+  { date: "2025-01-15", status: "Present", subject: "Mathematics" },
+  { date: "2025-01-14", status: "Present", subject: "Science" },
+  { date: "2025-01-13", status: "Absent", subject: "English" },
+  { date: "2025-01-12", status: "Present", subject: "History" },
+  { date: "2025-01-11", status: "Present", subject: "Physical Education" },
+  { date: "2025-01-10", status: "Late", subject: "Computer Science" },
+  { date: "2025-01-09", status: "Present", subject: "Mathematics" },
+  { date: "2025-01-08", status: "Absent", subject: "Science" },
 ];
 
 const mockSchedule = [
-  { time: "08:00 - 09:00", subject: "Math", room: "A-203" },
-  { time: "09:10 - 10:10", subject: "Science", room: "Lab-1" },
-  { time: "10:20 - 11:20", subject: "English", room: "B-104" },
-  { time: "11:30 - 12:30", subject: "History", room: "C-201" },
+  { time: "08:00 - 09:00", subject: "Mathematics", room: "A-203", teacher: "Mrs. Sharma" },
+  { time: "09:10 - 10:10", subject: "Science", room: "Lab-1", teacher: "Mr. Patel" },
+  { time: "10:20 - 11:20", subject: "English", room: "B-104", teacher: "Ms. Gupta" },
+  { time: "11:30 - 12:30", subject: "History", room: "C-201", teacher: "Dr. Singh" },
+  { time: "12:30 - 13:30", subject: "Lunch Break", room: "Cafeteria", teacher: "" },
+  { time: "13:30 - 14:30", subject: "Physical Education", room: "Ground", teacher: "Mr. Kumar" },
+  { time: "14:40 - 15:40", subject: "Computer Science", room: "Lab-2", teacher: "Mrs. Reddy" },
+];
+
+const mockPerformance = [
+  { subject: "Mathematics", grade: "A+", marks: 95 },
+  { subject: "Science", grade: "A", marks: 88 },
+  { subject: "English", grade: "A+", marks: 92 },
+  { subject: "History", grade: "B+", marks: 85 },
+  { subject: "Physical Education", grade: "A", marks: 90 },
+  { subject: "Computer Science", grade: "A+", marks: 94 },
 ];
 
 const ParentDashboard = () => {
@@ -72,10 +88,11 @@ const ParentDashboard = () => {
 
       <div className="px-4 py-6 bg-gradient-to-b from-primary/5 to-background">
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid grid-cols-3 w-full">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="attendance">Attendance</TabsTrigger>
-            <TabsTrigger value="schedule">Schedule</TabsTrigger>
+          <TabsList className="grid grid-cols-4 w-full bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg p-1">
+            <TabsTrigger value="overview" className="text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Overview</TabsTrigger>
+            <TabsTrigger value="attendance" className="text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Attendance</TabsTrigger>
+            <TabsTrigger value="schedule" className="text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Schedule</TabsTrigger>
+            <TabsTrigger value="performance" className="text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Performance</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6 mt-6">
@@ -100,19 +117,43 @@ const ParentDashboard = () => {
               </Card>
             </div>
 
+            <div className="grid grid-cols-2 gap-4">
+              <Card className="mobile-card">
+                <CardContent className="p-4 text-center space-y-2">
+                  <TrendingUp className="w-8 h-8 text-primary mx-auto" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Avg. Grade</p>
+                    <p className="text-3xl font-bold">A</p>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="mobile-card">
+                <CardContent className="p-4 text-center space-y-2">
+                  <Clock className="w-8 h-8 text-primary mx-auto" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Days Present</p>
+                    <p className="text-3xl font-bold">18/20</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
             <Card className="mobile-card">
               <CardHeader>
                 <CardTitle className="text-lg">Recent Attendance</CardTitle>
-                <CardDescription>Date-wise past 5 entries</CardDescription>
+                <CardDescription>Date-wise past 8 entries</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
                 {mockRecentAttendance.map((item) => (
                   <div key={item.date} className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4 text-primary" />
-                      <span>{new Date(item.date).toLocaleDateString()}</span>
+                      <div>
+                        <span>{new Date(item.date).toLocaleDateString()}</span>
+                        <p className="text-xs text-muted-foreground">{item.subject}</p>
+                      </div>
                     </div>
-                    <Badge variant={item.status === "Present" ? "secondary" : "destructive"}>{item.status}</Badge>
+                    <Badge variant={item.status === "Present" ? "secondary" : item.status === "Late" ? "default" : "destructive"}>{item.status}</Badge>
                   </div>
                 ))}
               </CardContent>
@@ -136,6 +177,29 @@ const ParentDashboard = () => {
                 </ChartContainer>
               </CardContent>
             </Card>
+
+            <Card className="mobile-card">
+              <CardHeader>
+                <CardTitle className="text-lg">Attendance Summary</CardTitle>
+                <CardDescription>Detailed breakdown by subject</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {mockAttendanceBySubject.map((subject) => (
+                  <div key={subject.subject} className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <BookOpen className="w-4 h-4 text-primary" />
+                      <span className="font-medium">{subject.subject}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-20 bg-muted rounded-full h-2">
+                        <div className="bg-primary h-2 rounded-full" style={{ width: `${subject.percentage}%` }}></div>
+                      </div>
+                      <span className="text-sm font-medium w-12 text-right">{subject.percentage}%</span>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="schedule" className="space-y-6 mt-6">
@@ -146,14 +210,61 @@ const ParentDashboard = () => {
               </CardHeader>
               <CardContent className="space-y-3">
                 {mockSchedule.map((s, idx) => (
-                  <div key={idx} className="flex items-center justify-between">
-                    <div>
+                  <div key={idx} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                    <div className="flex-1">
                       <p className="font-medium">{s.subject}</p>
                       <p className="text-sm text-muted-foreground">{s.time}</p>
+                      {s.teacher && <p className="text-xs text-muted-foreground">Teacher: {s.teacher}</p>}
                     </div>
                     <span className="text-sm text-muted-foreground">{s.room}</span>
                   </div>
                 ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="performance" className="space-y-6 mt-6">
+            <Card className="mobile-card">
+              <CardHeader>
+                <CardTitle className="text-lg">Academic Performance</CardTitle>
+                <CardDescription>Latest grades and marks by subject</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {mockPerformance.map((subject) => (
+                  <div key={subject.subject} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <BookOpen className="w-4 h-4 text-primary" />
+                      <div>
+                        <p className="font-medium">{subject.subject}</p>
+                        <p className="text-xs text-muted-foreground">Marks: {subject.marks}/100</p>
+                      </div>
+                    </div>
+                    <Badge variant="secondary" className="text-sm font-bold">{subject.grade}</Badge>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            <Card className="mobile-card">
+              <CardHeader>
+                <CardTitle className="text-lg">Performance Insights</CardTitle>
+                <CardDescription>Key observations and recommendations</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-start gap-2 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                  <TrendingUp className="w-4 h-4 text-green-600 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-green-800 dark:text-green-200">Excellent Progress</p>
+                    <p className="text-xs text-green-600 dark:text-green-300">Mathematics and Computer Science showing consistent improvement</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+                  <AlertTriangle className="w-4 h-4 text-yellow-600 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">Attention Needed</p>
+                    <p className="text-xs text-yellow-600 dark:text-yellow-300">History attendance could be improved</p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
