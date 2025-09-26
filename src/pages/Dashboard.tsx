@@ -9,8 +9,10 @@ import {
   BookOpen, 
   Calendar,
   LogOut,
-  Bell
+  Bell,
+  BarChart3
 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Mock data for classes
 const mockClasses = [
@@ -106,90 +108,116 @@ const Dashboard = () => {
         </div>
       </header>
 
-      {/* Mobile Stats Cards */}
+      {/* Tabs Content */}
       <div className="px-4 py-6 bg-gradient-to-b from-primary/5 to-background">
-        <div className="grid grid-cols-2 gap-4 mb-8">
-          <Card className="mobile-card bg-gradient-to-br from-card to-card/80 border-border/50">
-            <CardContent className="p-4">
-              <div className="text-center space-y-2">
-                <BookOpen className="w-10 h-10 text-primary mx-auto" />
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Classes</p>
-                  <p className="text-3xl font-bold text-foreground">{mockClasses.length}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card className="mobile-card bg-gradient-to-br from-card to-card/80 border-border/50">
-            <CardContent className="p-4">
-              <div className="text-center space-y-2">
-                <Users className="w-10 h-10 text-primary mx-auto" />
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Students</p>
-                  <p className="text-3xl font-bold text-foreground">
-                    {mockClasses.reduce((sum, cls) => sum + cls.students, 0)}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <Tabs defaultValue="classes" className="w-full">
+          <TabsList className="grid grid-cols-3 w-full">
+            <TabsTrigger value="classes">Classes</TabsTrigger>
+            <TabsTrigger value="stats">Stats</TabsTrigger>
+            <TabsTrigger value="alerts">Alerts</TabsTrigger>
+          </TabsList>
 
-        {/* Mobile Classes List */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-foreground mb-6 px-2">Your Classes</h2>
-          
-          {mockClasses.map((classItem, index) => (
-            <Card 
-              key={classItem.id}
-              className="mobile-card bg-gradient-to-r from-card to-card/95 border-border/50 active:scale-98 transition-all duration-200 touch-manipulation"
-              onClick={() => handleClassSelect(classItem.id)}
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <CardContent className="p-5">
-                <div className="flex items-start space-x-4">
-                  <div className={`w-6 h-6 rounded-full ${classItem.color} flex-shrink-0 mt-1`}></div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex-1">
-                        <h3 className="text-lg font-bold text-foreground mb-1 leading-tight">
-                          {classItem.name}
-                        </h3>
-                        <p className="text-muted-foreground text-sm mb-2">{classItem.subject}</p>
-                      </div>
-                      <Badge variant="secondary" className="ml-2 text-xs px-2 py-1 rounded-full">
-                        {classItem.period}
-                      </Badge>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 gap-2 mb-4">
-                      <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                        <Users className="w-4 h-4 text-primary" />
-                        <span className="font-medium">{classItem.students} students</span>
-                      </div>
-                      <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                        <Calendar className="w-4 h-4 text-primary" />
-                        <span>{classItem.time}</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground font-medium">{classItem.room}</span>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        className="mobile-button h-9 px-4 text-primary border-primary/50 hover:bg-primary hover:text-primary-foreground active:scale-95 transition-transform"
-                      >
-                        View Class
-                      </Button>
+          <TabsContent value="classes" className="space-y-4 mt-6">
+            <div className="grid grid-cols-2 gap-4 mb-2">
+              <Card className="mobile-card bg-gradient-to-br from-card to-card/80 border-border/50">
+                <CardContent className="p-4">
+                  <div className="text-center space-y-2">
+                    <BookOpen className="w-10 h-10 text-primary mx-auto" />
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">Classes</p>
+                      <p className="text-3xl font-bold text-foreground">{mockClasses.length}</p>
                     </div>
                   </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="mobile-card bg-gradient-to-br from-card to-card/80 border-border/50">
+                <CardContent className="p-4">
+                  <div className="text-center space-y-2">
+                    <Users className="w-10 h-10 text-primary mx-auto" />
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">Students</p>
+                      <p className="text-3xl font-bold text-foreground">
+                        {mockClasses.reduce((sum, cls) => sum + cls.students, 0)}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-foreground mb-2 px-2">Your Classes</h2>
+              {mockClasses.map((classItem, index) => (
+                <Card 
+                  key={classItem.id}
+                  className="mobile-card bg-gradient-to-r from-card to-card/95 border-border/50 active:scale-98 transition-all duration-200 touch-manipulation"
+                  onClick={() => handleClassSelect(classItem.id)}
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <CardContent className="p-5">
+                    <div className="flex items-start space-x-4">
+                      <div className={`w-6 h-6 rounded-full ${classItem.color} flex-shrink-0 mt-1`}></div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex-1">
+                            <h3 className="text-lg font-bold text-foreground mb-1 leading-tight">
+                              {classItem.name}
+                            </h3>
+                            <p className="text-muted-foreground text-sm mb-2">{classItem.subject}</p>
+                          </div>
+                          <Badge variant="secondary" className="ml-2 text-xs px-2 py-1 rounded-full">
+                            {classItem.period}
+                          </Badge>
+                        </div>
+                        <div className="grid grid-cols-1 gap-2 mb-4">
+                          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                            <Users className="w-4 h-4 text-primary" />
+                            <span className="font-medium">{classItem.students} students</span>
+                          </div>
+                          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                            <Calendar className="w-4 h-4 text-primary" />
+                            <span>{classItem.time}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-muted-foreground font-medium">{classItem.room}</span>
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            className="mobile-button h-9 px-4 text-primary border-primary/50 hover:bg-primary hover:text-primary-foreground active:scale-95 transition-transform"
+                          >
+                            View Class
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="stats" className="mt-6">
+            <Card className="mobile-card">
+              <CardContent className="p-5">
+                <div className="flex items-center gap-3 mb-3">
+                  <BarChart3 className="w-5 h-5 text-primary" />
+                  <h3 className="font-semibold">Coming Soon</h3>
                 </div>
+                <p className="text-sm text-muted-foreground">Detailed class performance and attendance analytics will appear here.</p>
               </CardContent>
             </Card>
-          ))}
-        </div>
+          </TabsContent>
+
+          <TabsContent value="alerts" className="mt-6">
+            <Card className="mobile-card">
+              <CardContent className="p-5">
+                <p className="text-sm text-muted-foreground">No new alerts.</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
 
       {/* Mobile Safe Area Bottom */}
