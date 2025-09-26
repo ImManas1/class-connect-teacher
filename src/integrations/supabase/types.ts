@@ -14,199 +14,7 @@ export type Database = {
   }
   public: {
     Tables: {
-      attendance: {
-        Row: {
-          class_id: string
-          created_at: string
-          date: string
-          id: string
-          status: string
-          student_id: string
-        }
-        Insert: {
-          class_id: string
-          created_at?: string
-          date?: string
-          id?: string
-          status: string
-          student_id: string
-        }
-        Update: {
-          class_id?: string
-          created_at?: string
-          date?: string
-          id?: string
-          status?: string
-          student_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "attendance_class_id_fkey"
-            columns: ["class_id"]
-            isOneToOne: false
-            referencedRelation: "classes"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "attendance_student_id_fkey"
-            columns: ["student_id"]
-            isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      classes: {
-        Row: {
-          created_at: string
-          id: string
-          name: string
-          subject: string | null
-          teacher_id: string | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          name: string
-          subject?: string | null
-          teacher_id?: string | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          name?: string
-          subject?: string | null
-          teacher_id?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "classes_teacher_id_fkey"
-            columns: ["teacher_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      grades: {
-        Row: {
-          assignment: string
-          class_id: string
-          created_at: string
-          date_assigned: string
-          grade: number | null
-          id: string
-          max_grade: number | null
-          student_id: string
-        }
-        Insert: {
-          assignment: string
-          class_id: string
-          created_at?: string
-          date_assigned?: string
-          grade?: number | null
-          id?: string
-          max_grade?: number | null
-          student_id: string
-        }
-        Update: {
-          assignment?: string
-          class_id?: string
-          created_at?: string
-          date_assigned?: string
-          grade?: number | null
-          id?: string
-          max_grade?: number | null
-          student_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "grades_class_id_fkey"
-            columns: ["class_id"]
-            isOneToOne: false
-            referencedRelation: "classes"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "grades_student_id_fkey"
-            columns: ["student_id"]
-            isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      profiles: {
-        Row: {
-          created_at: string
-          email: string
-          full_name: string
-          id: string
-          role: Database["public"]["Enums"]["user_role"]
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          email: string
-          full_name: string
-          id?: string
-          role?: Database["public"]["Enums"]["user_role"]
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          email?: string
-          full_name?: string
-          id?: string
-          role?: Database["public"]["Enums"]["user_role"]
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      students: {
-        Row: {
-          class_id: string | null
-          created_at: string
-          grade: string | null
-          id: string
-          name: string
-          parent_id: string | null
-          updated_at: string
-        }
-        Insert: {
-          class_id?: string | null
-          created_at?: string
-          grade?: string | null
-          id?: string
-          name: string
-          parent_id?: string | null
-          updated_at?: string
-        }
-        Update: {
-          class_id?: string | null
-          created_at?: string
-          grade?: string | null
-          id?: string
-          name?: string
-          parent_id?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "students_parent_id_fkey"
-            columns: ["parent_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
@@ -215,7 +23,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      user_role: "teacher" | "parent"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -342,8 +150,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      user_role: ["teacher", "parent"],
-    },
+    Enums: {},
   },
 } as const
