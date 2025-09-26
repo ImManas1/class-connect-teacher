@@ -1,8 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { toast } from "@/hooks/use-toast";
 import { 
   ArrowLeft, 
   Users, 
@@ -15,7 +17,8 @@ import {
   UserCheck,
   GraduationCap,
   FileText,
-  MessageSquare
+  MessageSquare,
+  Camera
 } from "lucide-react";
 
 // Mock data
@@ -63,8 +66,84 @@ const mockClassData: Record<string, any> = {
 const ClassDetail = () => {
   const { classId } = useParams();
   const navigate = useNavigate();
+  const [isProcessing, setIsProcessing] = useState(false);
   
   const classData = classId ? mockClassData[classId] : null;
+
+  const handleTakeAttendance = async () => {
+    try {
+      setIsProcessing(true);
+      
+      // Check if camera is available
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        toast({
+          title: "Camera not available",
+          description: "Please ensure camera access is enabled",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Get camera stream
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { width: 1280, height: 720 } 
+      });
+      
+      // Create video element
+      const video = document.createElement('video');
+      video.srcObject = stream;
+      video.play();
+      
+      // Wait for video to be ready
+      await new Promise(resolve => {
+        video.onloadedmetadata = resolve;
+      });
+      
+      // Capture frame
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx?.drawImage(video, 0, 0);
+      
+      // Convert to base64
+      const imageData = canvas.toDataURL('image/jpeg').split(',')[1];
+      
+      // Stop camera
+      stream.getTracks().forEach(track => track.stop());
+      
+      // Send to API
+      const formData = new FormData();
+      const blob = await fetch(`data:image/jpeg;base64,${imageData}`).then(r => r.blob());
+      formData.append('image', blob);
+      
+      const response = await fetch(`http://localhost:5000/api/classes/${classId}/attendance`, {
+        method: 'POST',
+        body: formData,
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        toast({
+          title: "Attendance Marked!",
+          description: `${result.attendance_marked.length} students recognized and marked present`,
+        });
+      } else {
+        throw new Error(result.error || 'Failed to process attendance');
+      }
+      
+    } catch (error) {
+      console.error('Error taking attendance:', error);
+      toast({
+        title: "Error",
+        description: "Failed to take attendance. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   if (!classData) {
     return (
@@ -200,10 +279,20 @@ const ClassDetail = () => {
         <div className="mt-8">
           <Button 
             className="w-full h-16 bg-green-600 hover:bg-green-700 text-white font-semibold text-lg active:scale-95 transition-all touch-manipulation"
-            onClick={() => navigate(`/attendance/${classId}`)}
+            onClick={handleTakeAttendance}
+            disabled={isProcessing}
           >
-            <UserCheck className="w-6 h-6 mr-2" />
-            Take Attendance
+            {isProcessing ? (
+              <>
+                <Camera className="w-6 h-6 mr-2 animate-spin" />
+                Processing...
+              </>
+            ) : (
+              <>
+                <UserCheck className="w-6 h-6 mr-2" />
+                Take Attendance
+              </>
+            )}
           </Button>
         </div>
       </div>
