@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 import { 
   GraduationCap, 
   Users, 
@@ -59,15 +61,63 @@ const mockClasses = [
 const Dashboard = () => {
   const navigate = useNavigate();
   const [selectedClass, setSelectedClass] = useState<number | null>(null);
+  const [profile, setProfile] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        navigate('/');
+        return;
+      }
+
+      // Fetch profile
+      const { data: profileData } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .single();
+
+      if (profileData?.role !== 'teacher') {
+        navigate('/parent-dashboard');
+        return;
+      }
+
+      setProfile(profileData);
+    } catch (error) {
+      console.error('Auth check error:', error);
+      navigate('/');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleClassSelect = (classId: number) => {
     setSelectedClass(classId);
     navigate(`/class/${classId}`);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     navigate("/");
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background touch-manipulation">
@@ -81,7 +131,7 @@ const Dashboard = () => {
               </div>
               <div>
                 <h1 className="text-xl font-bold text-white">My Classes</h1>
-                <p className="text-white/80 text-sm">Good morning, Sarah!</p>
+                <p className="text-white/80 text-sm">Good morning, {profile?.full_name?.split(' ')[0] || 'Teacher'}!</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
