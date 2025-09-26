@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Calendar, ChartBar, LogOut, School2, User } from "lucide-react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis } from "recharts";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const mockAttendanceBySubject = [
   { subject: "Math", percentage: 92 },
@@ -69,80 +70,94 @@ const ParentDashboard = () => {
         </div>
       </header>
 
-      <div className="px-4 py-6 bg-gradient-to-b from-primary/5 to-background space-y-6">
-        <div className="grid grid-cols-2 gap-4">
-          <Card className="mobile-card">
-            <CardContent className="p-4 text-center space-y-2">
-              <User className="w-8 h-8 text-primary mx-auto" />
-              <div>
-                <p className="text-sm text-muted-foreground">Overall Attendance</p>
-                <p className="text-3xl font-bold">{overallAttendance}%</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="mobile-card">
-            <CardContent className="p-4 text-center space-y-2">
-              <ChartBar className="w-8 h-8 text-primary mx-auto" />
-              <div>
-                <p className="text-sm text-muted-foreground">Subjects Tracked</p>
-                <p className="text-3xl font-bold">{mockAttendanceBySubject.length}</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+      <div className="px-4 py-6 bg-gradient-to-b from-primary/5 to-background">
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid grid-cols-3 w-full">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="attendance">Attendance</TabsTrigger>
+            <TabsTrigger value="schedule">Schedule</TabsTrigger>
+          </TabsList>
 
-        <Card className="mobile-card">
-          <CardHeader>
-            <CardTitle className="text-lg">Subject-wise Attendance</CardTitle>
-            <CardDescription>Percentage attended per subject</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-64">
-              <BarChart data={mockAttendanceBySubject}>
-                <XAxis dataKey="subject" tickLine={false} axisLine={false} />
-                <YAxis domain={[0, 100]} tickLine={false} axisLine={false} />
-                <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-                <Bar dataKey="percentage" fill="var(--color-present)" radius={4} />
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
+          <TabsContent value="overview" className="space-y-6 mt-6">
+            <div className="grid grid-cols-2 gap-4">
+              <Card className="mobile-card">
+                <CardContent className="p-4 text-center space-y-2">
+                  <User className="w-8 h-8 text-primary mx-auto" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Overall Attendance</p>
+                    <p className="text-3xl font-bold">{overallAttendance}%</p>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="mobile-card">
+                <CardContent className="p-4 text-center space-y-2">
+                  <ChartBar className="w-8 h-8 text-primary mx-auto" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Subjects Tracked</p>
+                    <p className="text-3xl font-bold">{mockAttendanceBySubject.length}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
 
-        <Card className="mobile-card">
-          <CardHeader>
-            <CardTitle className="text-lg">Recent Attendance</CardTitle>
-            <CardDescription>Date-wise past 5 entries</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {mockRecentAttendance.map((item) => (
-              <div key={item.date} className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-primary" />
-                  <span>{new Date(item.date).toLocaleDateString()}</span>
-                </div>
-                <Badge variant={item.status === "Present" ? "secondary" : "destructive"}>{item.status}</Badge>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+            <Card className="mobile-card">
+              <CardHeader>
+                <CardTitle className="text-lg">Recent Attendance</CardTitle>
+                <CardDescription>Date-wise past 5 entries</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {mockRecentAttendance.map((item) => (
+                  <div key={item.date} className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-primary" />
+                      <span>{new Date(item.date).toLocaleDateString()}</span>
+                    </div>
+                    <Badge variant={item.status === "Present" ? "secondary" : "destructive"}>{item.status}</Badge>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-        <Card className="mobile-card">
-          <CardHeader>
-            <CardTitle className="text-lg">Today's Schedule</CardTitle>
-            <CardDescription>Your child's classes for today</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {mockSchedule.map((s, idx) => (
-              <div key={idx} className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium">{s.subject}</p>
-                  <p className="text-sm text-muted-foreground">{s.time}</p>
-                </div>
-                <span className="text-sm text-muted-foreground">{s.room}</span>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+          <TabsContent value="attendance" className="space-y-6 mt-6">
+            <Card className="mobile-card">
+              <CardHeader>
+                <CardTitle className="text-lg">Subject-wise Attendance</CardTitle>
+                <CardDescription>Percentage attended per subject</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ChartContainer config={chartConfig} className="h-64">
+                  <BarChart data={mockAttendanceBySubject}>
+                    <XAxis dataKey="subject" tickLine={false} axisLine={false} />
+                    <YAxis domain={[0, 100]} tickLine={false} axisLine={false} />
+                    <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                    <Bar dataKey="percentage" fill="var(--color-present)" radius={4} />
+                  </BarChart>
+                </ChartContainer>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="schedule" className="space-y-6 mt-6">
+            <Card className="mobile-card">
+              <CardHeader>
+                <CardTitle className="text-lg">Today's Schedule</CardTitle>
+                <CardDescription>Your child's classes for today</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {mockSchedule.map((s, idx) => (
+                  <div key={idx} className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium">{s.subject}</p>
+                      <p className="text-sm text-muted-foreground">{s.time}</p>
+                    </div>
+                    <span className="text-sm text-muted-foreground">{s.room}</span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
 
       <div className="pb-safe-bottom" />
