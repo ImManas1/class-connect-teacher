@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { GraduationCap, Eye, EyeOff } from "lucide-react";
-import loginHero from "@/assets/login-hero.jpg";
+// Background image removed per request
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -35,22 +35,14 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 touch-manipulation">
-      {/* Mobile Hero Section */}
-      <div className="relative h-56 overflow-hidden">
-        <img 
-          src={loginHero}
-          alt="Educational environment with modern classroom" 
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-primary/10"></div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-white px-4">
-            <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-              <GraduationCap className="w-10 h-10" />
-            </div>
-            <h1 className="text-3xl font-bold mb-2">Attendify</h1>
-            <p className="text-white/90 text-base">Manage your classes with ease</p>
+      {/* Simple Header (image removed) */}
+      <div className="px-4 py-8">
+        <div className="text-center">
+          <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <GraduationCap className="w-10 h-10 text-primary" />
           </div>
+          <h1 className="text-3xl font-bold mb-2">Attendify</h1>
+          <p className="text-muted-foreground text-base">Manage your classes with ease</p>
         </div>
       </div>
 

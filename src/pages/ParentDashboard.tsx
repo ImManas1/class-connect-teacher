@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
-import { Calendar, ChartBar, LogOut, School2, User, TrendingUp, Clock, BookOpen, AlertTriangle } from "lucide-react";
+import { Calendar, ChartBar, LogOut, School2, User, TrendingUp, Clock, BookOpen } from "lucide-react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis } from "recharts";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -88,11 +88,10 @@ const ParentDashboard = () => {
 
       <div className="px-4 py-6 bg-gradient-to-b from-primary/5 to-background">
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid grid-cols-4 w-full bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg p-1">
+          <TabsList className="grid grid-cols-3 w-full bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg p-1">
             <TabsTrigger value="overview" className="text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Overview</TabsTrigger>
             <TabsTrigger value="attendance" className="text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Attendance</TabsTrigger>
             <TabsTrigger value="schedule" className="text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Schedule</TabsTrigger>
-            <TabsTrigger value="performance" className="text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Performance</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6 mt-6">
@@ -223,51 +222,7 @@ const ParentDashboard = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="performance" className="space-y-6 mt-6">
-            <Card className="mobile-card">
-              <CardHeader>
-                <CardTitle className="text-lg">Academic Performance</CardTitle>
-                <CardDescription>Latest grades and marks by subject</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {mockPerformance.map((subject) => (
-                  <div key={subject.subject} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <BookOpen className="w-4 h-4 text-primary" />
-                      <div>
-                        <p className="font-medium">{subject.subject}</p>
-                        <p className="text-xs text-muted-foreground">Marks: {subject.marks}/100</p>
-                      </div>
-                    </div>
-                    <Badge variant="secondary" className="text-sm font-bold">{subject.grade}</Badge>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-
-            <Card className="mobile-card">
-              <CardHeader>
-                <CardTitle className="text-lg">Performance Insights</CardTitle>
-                <CardDescription>Key observations and recommendations</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-start gap-2 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                  <TrendingUp className="w-4 h-4 text-green-600 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-green-800 dark:text-green-200">Excellent Progress</p>
-                    <p className="text-xs text-green-600 dark:text-green-300">Mathematics and Computer Science showing consistent improvement</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-                  <AlertTriangle className="w-4 h-4 text-yellow-600 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">Attention Needed</p>
-                    <p className="text-xs text-yellow-600 dark:text-yellow-300">History attendance could be improved</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
+          
         </Tabs>
       </div>
 
