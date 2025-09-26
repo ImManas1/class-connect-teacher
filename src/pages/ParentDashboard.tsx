@@ -23,7 +23,7 @@ const mockRecentAttendance = [
   { date: "2025-01-13", status: "Absent", subject: "English" },
   { date: "2025-01-12", status: "Present", subject: "History" },
   { date: "2025-01-11", status: "Present", subject: "Physical Education" },
-  { date: "2025-01-10", status: "Late", subject: "Computer Science" },
+  { date: "2025-01-10", status: "Present", subject: "Computer Science" },
   { date: "2025-01-09", status: "Present", subject: "Mathematics" },
   { date: "2025-01-08", status: "Absent", subject: "Science" },
 ];
@@ -143,7 +143,7 @@ const ParentDashboard = () => {
                         <p className="text-xs text-muted-foreground">{item.subject}</p>
                       </div>
                     </div>
-                    <Badge variant={item.status === "Present" ? "secondary" : item.status === "Late" ? "default" : "destructive"}>{item.status}</Badge>
+                    <Badge variant={item.status === "Present" ? "secondary" : "destructive"}>{item.status}</Badge>
                   </div>
                 ))}
               </CardContent>
