@@ -161,28 +161,6 @@ const ClassDetail = () => {
           </CardContent>
         </Card>
 
-        {/* Mobile Upcoming Assignment */}
-        <Card className="mobile-card mb-6 bg-gradient-to-br from-card to-card/80 border-border/50">
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center space-x-3 text-lg">
-              <div className="w-10 h-10 bg-warning/10 rounded-xl flex items-center justify-center">
-                <AlertCircle className="w-5 h-5 text-warning" />
-              </div>
-              <span>Next Assignment</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-bold text-foreground text-lg">{classData.nextAssignment}</h3>
-                <p className="text-muted-foreground mt-1">Due: {classData.dueDate}</p>
-              </div>
-              <Badge variant="outline" className="text-warning border-warning/30">
-                Pending
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
 
         {/* Mobile Recent Students */}
         <Card className="mobile-card bg-gradient-to-br from-card to-card/80 border-border/50">
