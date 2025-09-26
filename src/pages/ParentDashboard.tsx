@@ -116,16 +116,7 @@ const ParentDashboard = () => {
               </Card>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <Card className="mobile-card">
-                <CardContent className="p-4 text-center space-y-2">
-                  <TrendingUp className="w-8 h-8 text-primary mx-auto" />
-                  <div>
-                    <p className="text-sm text-muted-foreground">Avg. Grade</p>
-                    <p className="text-3xl font-bold">A</p>
-                  </div>
-                </CardContent>
-              </Card>
+            <div className="grid grid-cols-1 gap-4">
               <Card className="mobile-card">
                 <CardContent className="p-4 text-center space-y-2">
                   <Clock className="w-8 h-8 text-primary mx-auto" />
