@@ -112,41 +112,8 @@ const ClassDetail = () => {
         </div>
       </header>
 
-      {/* Mobile Quick Actions */}
+      {/* Mobile Content */}
       <div className="px-4 py-6 bg-gradient-to-b from-primary/5 to-background">
-        <div className="grid grid-cols-2 gap-4 mb-8">
-          <Button 
-            className="mobile-card h-20 flex flex-col items-center justify-center space-y-2 bg-gradient-to-br from-success to-success/80 hover:from-success/90 hover:to-success/70 text-success-foreground border-0 active:scale-95 transition-all touch-manipulation"
-            onClick={() => navigate(`/attendance/${classId}`)}
-          >
-            <UserCheck className="w-7 h-7" />
-            <span className="text-sm font-semibold">Attendance</span>
-          </Button>
-          
-          <Button 
-            className="mobile-card h-20 flex flex-col items-center justify-center space-y-2 bg-gradient-to-br from-warning to-warning/80 hover:from-warning/90 hover:to-warning/70 text-warning-foreground border-0 active:scale-95 transition-all touch-manipulation"
-            onClick={() => navigate(`/grades/${classId}`)}
-          >
-            <GraduationCap className="w-7 h-7" />
-            <span className="text-sm font-semibold">Grades</span>
-          </Button>
-          
-          <Button 
-            className="mobile-card h-20 flex flex-col items-center justify-center space-y-2 bg-gradient-to-br from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground border-0 active:scale-95 transition-all touch-manipulation"
-            onClick={() => navigate(`/assignments/${classId}`)}
-          >
-            <FileText className="w-7 h-7" />
-            <span className="text-sm font-semibold">Assignments</span>
-          </Button>
-          
-          <Button 
-            className="mobile-card h-20 flex flex-col items-center justify-center space-y-2 bg-gradient-to-br from-secondary to-secondary/80 hover:from-secondary/90 hover:to-secondary/70 text-secondary-foreground border-0 active:scale-95 transition-all touch-manipulation"
-            onClick={() => navigate(`/announcements/${classId}`)}
-          >
-            <MessageSquare className="w-7 h-7" />
-            <span className="text-sm font-semibold">Messages</span>
-          </Button>
-        </div>
 
         {/* Mobile Class Info Card */}
         <Card className="mobile-card mb-6 bg-gradient-to-br from-card to-card/80 border-border/50">
@@ -250,6 +217,17 @@ const ClassDetail = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Take Attendance Button */}
+        <div className="mt-8">
+          <Button 
+            className="w-full h-16 bg-green-600 hover:bg-green-700 text-white font-semibold text-lg active:scale-95 transition-all touch-manipulation"
+            onClick={() => navigate(`/attendance/${classId}`)}
+          >
+            <UserCheck className="w-6 h-6 mr-2" />
+            Take Attendance
+          </Button>
+        </div>
       </div>
 
       {/* Mobile Safe Area Bottom */}

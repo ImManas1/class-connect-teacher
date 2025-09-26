@@ -132,10 +132,6 @@ const Login = () => {
         </Card>
       </div>
 
-      {/* Footer */}
-      <div className="px-4 py-8 text-center">
-        <p className="text-sm text-muted-foreground">© 2024 Attendify. All rights reserved.</p>
-      </div>
     </div>
   );
 };
