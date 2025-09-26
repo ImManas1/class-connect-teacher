@@ -81,7 +81,7 @@ const Dashboard = () => {
               </div>
               <div>
                 <h1 className="text-xl font-bold text-white">My Classes</h1>
-                <p className="text-white/80 text-sm">Good morning, Sarah!</p>
+                <p className="text-white/80 text-sm">Good morning, Asha!</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">

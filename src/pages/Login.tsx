@@ -48,7 +48,7 @@ const Login = () => {
             <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
               <GraduationCap className="w-10 h-10" />
             </div>
-            <h1 className="text-3xl font-bold mb-2">TeacherConnect</h1>
+            <h1 className="text-3xl font-bold mb-2">Attendify</h1>
             <p className="text-white/90 text-base">Manage your classes with ease</p>
           </div>
         </div>
@@ -118,6 +118,14 @@ const Login = () => {
               >
                 Sign In
               </Button>
+              <Button 
+                type="button"
+                variant="outline"
+                className="w-full mt-2 mobile-button active:scale-95"
+                onClick={() => navigate("/parent")}
+              >
+                Parent Login
+              </Button>
             </form>
 
             <div className="mt-8 text-center">
@@ -134,9 +142,7 @@ const Login = () => {
 
       {/* Footer */}
       <div className="px-4 py-8 text-center">
-        <p className="text-sm text-muted-foreground">
-          © 2024 TeacherConnect. All rights reserved.
-        </p>
+        <p className="text-sm text-muted-foreground">© 2024 Attendify. All rights reserved.</p>
       </div>
     </div>
   );
